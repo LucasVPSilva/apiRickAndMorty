@@ -1,9 +1,12 @@
 const showListCharacter = document.querySelector('.characters-list');
+const buttonNextPage = document.getElementById('button-next');
+const buttonBackPage = document.getElementById('button-back');
+
 // const cardCharacter = document.querySelector('.character-card');
 // const divImgCharacter = document.querySelector('.character-img');
 
 
-let currentPage = 1;
+let currentPage = 42;
 let totalPages = 0;
 
 
@@ -33,8 +36,6 @@ async function listCharacters() {
 
       // section da img:
       const sectionImg = document.createElement("section");
-      sectionImg.classList.add('character-img');
-
       sectionImg.innerHTML = `<img src="${character.image}"/>`
 
 
@@ -92,7 +93,7 @@ async function listCharacters() {
   } catch (error) {
     console.log(`Erro ao buscar: ${error} `);
   }
-
+  stateSetButton();
 
 }
 
@@ -109,3 +110,23 @@ async function backPage() {
   showListCharacter.innerHTML = ``;
   await listCharacters();
 }
+
+function stateSetButton() {
+  if (currentPage === 1) {
+    buttonBackPage.setAttribute('disabled', true);
+    buttonBackPage.setAttribute('style', 'cursor: not-allowed');
+
+  } else {
+    buttonBackPage.removeAttribute('disabled');
+    buttonBackPage.removeAttribute('style', 'cursor: not-allowed');
+  }
+  if (currentPage === totalPages) {
+    buttonNextPage.setAttribute('disabled', true);
+    buttonNextPage.setAttribute('style', 'cursor: not-allowed');
+
+  } else {
+    buttonNextPage.removeAttribute('disabled');
+    buttonNextPage.removeAttribute('style', 'cursor: not-allowed')
+  }
+}
+
