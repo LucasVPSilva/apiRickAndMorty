@@ -1,14 +1,24 @@
 const showListCharacter = document.querySelector('.characters-list');
 // const cardCharacter = document.querySelector('.character-card');
 // const divImgCharacter = document.querySelector('.character-img');
+
+
+let currentPage = 1;
+let totalPages = 0;
+
+
 async function listCharacters() {
   try {
-    const response = await api.get("/character/?page=1");
+    const response = await api.get("/character/?page=" + currentPage);
+    const pages = response.data.info.pages;
     const characters = response.data.results;
 
 
     console.log(response);
     console.log(characters);
+    console.log(pages)
+
+    totalPages = pages
 
 
     characters.forEach(character => {
@@ -35,13 +45,14 @@ async function listCharacters() {
       sectionText.innerHTML = `
         <h3 class='title-character'>${character.name}</h3>
         <div class="cardStatus">
-          <div class='statusColor ${character.status == 'Dead'
+          <div class='${character.status == 'Dead'
           ? 'dead' : character.status == 'Alive' ? 'alive'
             : 'unknown'}'>
          </div> 
          <span>${character.status == 'Dead'
           ? 'Morto' : character.status == 'Alive' ? 'Vivo'
-            : 'Desconhecido'}</span> &nbsp - &nbsp <span> ${character.species} </span>
+            : 'Desconhecido'}</span> &nbsp - &nbsp <span> ${character.species ==
+              'Human' ? "Humano" : character.species} </span>
         </div>
         <p>Última localização conhecida:</p>
         <h4>${character.location.name}</h4>
@@ -86,3 +97,15 @@ async function listCharacters() {
 }
 
 listCharacters()
+
+async function nextPage() {
+  currentPage++;
+  showListCharacter.innerHTML = ``;
+  await listCharacters();
+}
+
+async function backPage() {
+  currentPage--;
+  showListCharacter.innerHTML = ``;
+  await listCharacters();
+}
