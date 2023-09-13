@@ -1,13 +1,33 @@
 const showListCharacter = document.querySelector('.characters-list');
 const buttonNextPage = document.getElementById('button-next');
 const buttonBackPage = document.getElementById('button-back');
-
-// const cardCharacter = document.querySelector('.character-card');
-// const divImgCharacter = document.querySelector('.character-img');
+const infCurrentPage = document.getElementById('current-page');
 
 
-let currentPage = 42;
+
+let currentPage = 1;
 let totalPages = 0;
+
+function stateSetButton() {
+  if (currentPage === 1) {
+    buttonBackPage.setAttribute('disabled', true);
+    buttonBackPage.setAttribute('style', 'cursor: not-allowed');
+
+  } else {
+    buttonBackPage.removeAttribute('disabled');
+    buttonBackPage.removeAttribute('style', 'cursor: not-allowed');
+  }
+  if (currentPage === totalPages) {
+    buttonNextPage.setAttribute('disabled', true);
+    buttonNextPage.setAttribute('style', 'cursor: not-allowed');
+
+  } else {
+    buttonNextPage.removeAttribute('disabled');
+    buttonNextPage.removeAttribute('style', 'cursor: not-allowed')
+  }
+}
+
+
 
 
 async function listCharacters() {
@@ -61,17 +81,6 @@ async function listCharacters() {
       `
 
 
-
-
-      // sectionText.innerHTML = `
-      //   <h3>${character.name}</h3>
-      //   <h5>${character.status} - ${character.species}</h5>
-      //   <p>Última localização conhecida:</p>
-      //   <h4>${character.location.name}</h4>
-
-      // `
-
-
       // fazendo os appendChild
 
       cardCharacter.appendChild(sectionImg);
@@ -80,13 +89,13 @@ async function listCharacters() {
 
 
 
-      // showCharacter.innerHTML = `
-      // <img src="${character.image}"/>
-      // <h3>${character.name}</h3>
-      // <h5>${character.status}</h5>
-      // `
 
     });
+    const infPage = document.createElement('section');
+    infPage.innerHTML = `
+    <p> Página: ${currentPage}</p>
+    `
+    infCurrentPage.appendChild(infPage);
 
 
 
@@ -102,6 +111,8 @@ listCharacters()
 async function nextPage() {
   currentPage++;
   showListCharacter.innerHTML = ``;
+  infCurrentPage.innerHTML = ``;
+
   await listCharacters();
 }
 
@@ -109,24 +120,5 @@ async function backPage() {
   currentPage--;
   showListCharacter.innerHTML = ``;
   await listCharacters();
-}
-
-function stateSetButton() {
-  if (currentPage === 1) {
-    buttonBackPage.setAttribute('disabled', true);
-    buttonBackPage.setAttribute('style', 'cursor: not-allowed');
-
-  } else {
-    buttonBackPage.removeAttribute('disabled');
-    buttonBackPage.removeAttribute('style', 'cursor: not-allowed');
-  }
-  if (currentPage === totalPages) {
-    buttonNextPage.setAttribute('disabled', true);
-    buttonNextPage.setAttribute('style', 'cursor: not-allowed');
-
-  } else {
-    buttonNextPage.removeAttribute('disabled');
-    buttonNextPage.removeAttribute('style', 'cursor: not-allowed')
-  }
 }
 

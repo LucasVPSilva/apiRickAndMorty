@@ -129,6 +129,14 @@ main {
   cursor: pointer;
 }
 
+#current-page {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  font-size: 1.5rem;
+  color: rgb(69, 109, 9);
+}
+
 footer {
   display: flex;
   justify-content: center;
