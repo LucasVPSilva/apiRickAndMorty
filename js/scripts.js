@@ -127,6 +127,7 @@ function stateSetButton() {
   }
 }
 
+
 async function searchPersonagem(e) {
   try {
     e.preventDefault()
@@ -135,9 +136,9 @@ async function searchPersonagem(e) {
 
     const characterName = formEl["character-name"].value.trim();
     if (characterName) {
-      currentPage = 1;
-      endpoint += `?name=${characterName}`;
 
+      endpoint += `?page=${currentPage}&name=${characterName}`;
+      console.log(currentPage)
       const { data } = await api.get(endpoint);
 
       const content = data.results ?? data;
@@ -217,5 +218,6 @@ async function searchPersonagem(e) {
   } catch (error) {
     console.log(`Error: ${error}`)
   }
+
 }
 
